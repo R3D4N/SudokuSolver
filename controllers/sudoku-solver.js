@@ -1,6 +1,10 @@
 class SudokuSolver {
 
   validate(puzzleString) {
+    if(!puzzleString) return {error: 'Required field missing'}
+    if(puzzleString.length !== 81) return {eror: 'Expected puzzle to be 81 characters long'}
+    let puzzleRegex = /[^1-9.]/
+    if(puzzleRegex.test(puzzleString)) return {error: 'Invalid characters in puzzle'}
   }
 
   checkRowPlacement(puzzleString, row, column, value) {
@@ -56,11 +60,11 @@ class SudokuSolver {
     }
 
     rowRange.forEach(letter => {
-      rowValue = puzzleString.slice(index[letter][0], index[letter][1])
-      myregion += rowValue.slice(columnRange[0], columnRange[1])
+      let rowValue = puzzleString.slice(index[letter][0], index[letter][1])
+      myRegion += rowValue.slice(columnRange[0], columnRange[1])
     });
 
-    console.log(myRegion);
+    return myRegion.includes(value) ? false : true
   }
 
   solve(puzzleString) {
