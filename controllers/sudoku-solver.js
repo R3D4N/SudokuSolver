@@ -78,9 +78,9 @@ class SudokuSolver {
     for (let index = 0; index < puzzleString[0].length; index++) {
       if (puzzleString[0][index] == '.') {
         for (let number = 1; number <= 9; number++) {
-          if (isValid(puzzleString[0], index, number)) {
+          if (this.isValid(puzzleString[0], index, number)) {
             puzzleString[0] = puzzleString[0].slice(0, index) + number + puzzleString[0].slice(index + 1)
-            if (solve(puzzleString)) {
+            if (this.solve(puzzleString)) {
               return puzzleString
             } else {
               puzzleString[0] = puzzleString[0].slice(0, index) + '.' + puzzleString[0].slice(index + 1)
@@ -114,9 +114,9 @@ class SudokuSolver {
       row = 'H'
     }
 
-    if (checkRowPlacement(puzzleString, row, 0, number)) return false
-    if (checkColPlacement(puzzleString, 0, column, number)) return false
-    if (checkRegionPlacement(puzzleString, row, column, number)) return false
+    if (this.checkRowPlacement(puzzleString, row, 0, number)) return false
+    if (this.checkColPlacement(puzzleString, 0, column, number)) return false
+    if (this.checkRegionPlacement(puzzleString, row, column, number)) return false
 
     return true
   }
