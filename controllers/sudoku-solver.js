@@ -1,10 +1,9 @@
 class SudokuSolver {
-  solvedSudoku = ''
   validate(puzzleString) {
-    if(!puzzleString) return {error: 'Required field missing'}
-    if(puzzleString.length !== 81) return {eror: 'Expected puzzle to be 81 characters long'}
+    if (!puzzleString) return { error: 'Required field missing' }
+    if (puzzleString.length !== 81) return { error: 'Expected puzzle to be 81 characters long' }
     let puzzleRegex = /[^1-9.]/
-    if(puzzleRegex.test(puzzleString)) return {error: 'Invalid characters in puzzle'}
+    if (puzzleRegex.test(puzzleString)) return { error: 'Invalid characters in puzzle' }
   }
 
   checkRowPlacement(puzzleString, row, column, value) {
@@ -25,7 +24,7 @@ class SudokuSolver {
 
   checkColPlacement(puzzleString, row, column, value) {
     let myColumn = ''
-    for (let index = column; index < puzzleString.length; index+=9) {
+    for (let index = column; index < puzzleString.length; index += 9) {
       myColumn += puzzleString[index]
     }
     return myColumn.includes(value)
@@ -46,16 +45,16 @@ class SudokuSolver {
     }
     let rowRange = ['G', 'H', 'I']
     let acsiiValue = row.charCodeAt(0)
-    if(acsiiValue >=65 && acsiiValue <=67){
+    if (acsiiValue >= 65 && acsiiValue <= 67) {
       rowRange = ['A', 'B', 'C']
-    }else if(acsiiValue>=68 && acsiiValue<=70){
+    } else if (acsiiValue >= 68 && acsiiValue <= 70) {
       rowRange = ['D', 'E', 'F']
     }
 
     let columnRange = [6, 9]
-    if(column>=0 && column<=2){
+    if (column >= 0 && column <= 2) {
       columnRange = [0, 3]
-    }else if(column>=3 && column <=5){
+    } else if (column >= 3 && column <= 5) {
       columnRange = [3, 6]
     }
 
@@ -67,50 +66,57 @@ class SudokuSolver {
     return myRegion.includes(value)
   }
 
+  solvePuzzel(puzzleString){
+    let resolved = this.solve([puzzleString])
+    if(resolved){
+      return resolved[0]
+    }
+    return {"error": "Puzzle cannot be solved"}
+  }
+
   solve(puzzleString) {
-    for (let index = 0; index < puzzleString.length; index++) {
-      if (puzzleString[index] == '.') {
+    for (let index = 0; index < puzzleString[0].length; index++) {
+      if (puzzleString[0][index] == '.') {
         for (let number = 1; number <= 9; number++) {
-          if (isValid(puzzleString, index, number)) {
-            puzzleString = puzzleString.slice(0,index)+number+puzzleString.slice(index+1)
-            if(solve(puzzleString)){
-              if(!puzzleString.includes('.')) this.solvedSudoku = puzzleString
-              return true
-            }else{
-              puzzleString = puzzleString.slice(0,index)+'.'+puzzleString.slice(index+1)
+          if (isValid(puzzleString[0], index, number)) {
+            puzzleString[0] = puzzleString[0].slice(0, index) + number + puzzleString[0].slice(index + 1)
+            if (solve(puzzleString)) {
+              return puzzleString
+            } else {
+              puzzleString[0] = puzzleString[0].slice(0, index) + '.' + puzzleString[0].slice(index + 1)
             }
           }
         }
         return false
       }
     }
-    return true
+    return puzzleString
   }
 
-  isValid(puzzleString, index, number){
-    let row ='I'
-    let column= index % 9
-    if(index>=0 && index<9){
-        row='A'
-    }else if(index>=9 && index<18){
-        row ='B'
-    }else if(index>=18 && index<27){
-        row ='C'
-    }else if(index>=27 && index<36){
-        row ='D'
-    }else if(index>=36 && index<45){
-        row ='E'
-    }else if(index>=45 && index<54){
-        row ='F'
-    }else if(index>=54 && index<63){
-        row ='G'
-    }else if(index>=63 && index<72){
-        row ='H'
+  isValid(puzzleString, index, number) {
+    let row = 'I'
+    let column = index % 9
+    if (index >= 0 && index < 9) {
+      row = 'A'
+    } else if (index >= 9 && index < 18) {
+      row = 'B'
+    } else if (index >= 18 && index < 27) {
+      row = 'C'
+    } else if (index >= 27 && index < 36) {
+      row = 'D'
+    } else if (index >= 36 && index < 45) {
+      row = 'E'
+    } else if (index >= 45 && index < 54) {
+      row = 'F'
+    } else if (index >= 54 && index < 63) {
+      row = 'G'
+    } else if (index >= 63 && index < 72) {
+      row = 'H'
     }
 
-    if(checkRowPlacement(puzzleString, row, 0, number)) return false
-    if(checkColPlacement(puzzleString, 0, column, number)) return false
-    if(checkRegionPlacement(puzzleString, row, column, number)) return false
+    if (checkRowPlacement(puzzleString, row, 0, number)) return false
+    if (checkColPlacement(puzzleString, 0, column, number)) return false
+    if (checkRegionPlacement(puzzleString, row, column, number)) return false
 
     return true
   }
