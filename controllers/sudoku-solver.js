@@ -69,7 +69,7 @@ class SudokuSolver {
   solvePuzzel(puzzleString){
     let resolved = this.solve([puzzleString])
     if(resolved){
-      return resolved[0]
+      return {"solution": resolved[0]}
     }
     return {"error": "Puzzle cannot be solved"}
   }
