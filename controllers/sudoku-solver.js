@@ -6,6 +6,22 @@ class SudokuSolver {
     if (puzzleRegex.test(puzzleString)) return { error: 'Invalid characters in puzzle' }
   }
 
+  checkValueCoordinate(puzzleString, row, column, value) {
+    let index = {
+      'A': [0, 9],
+      'B': [9, 18],
+      'C': [18, 27],
+      'D': [27, 36],
+      'E': [36, 45],
+      'F': [45, 54],
+      'G': [54, 63],
+      'H': [63, 72],
+      'I': [72, 81]
+    }
+    let myRow = puzzleString.slice(index[row][0], index[row][1])
+    return myRow[column] == value
+  }
+
   checkRowPlacement(puzzleString, row, column, value) {
     let index = {
       'A': [0, 9],
@@ -66,12 +82,12 @@ class SudokuSolver {
     return myRegion.includes(value)
   }
 
-  solvePuzzle(puzzleString){
+  solvePuzzle(puzzleString) {
     let resolved = this.solve([puzzleString])
-    if(resolved){
-      return {"solution": resolved[0]}
+    if (resolved) {
+      return { "solution": resolved[0] }
     }
-    return {"error": "Puzzle cannot be solved"}
+    return { "error": "Puzzle cannot be solved" }
   }
 
   solve(puzzleString) {

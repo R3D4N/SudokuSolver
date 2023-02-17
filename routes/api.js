@@ -23,6 +23,7 @@ module.exports = function (app) {
         let conflict = []
         let row = coordinate[0].toUpperCase()
         let column = Number(coordinate[1])-1
+        if(solver.checkValueCoordinate(puzzle, row, column, value)) return res.json({"valid": true})
         if(solver.checkRowPlacement(puzzle, row, 0, value)) conflict.push("row")
         if(solver.checkColPlacement(puzzle, 0, column, value)) conflict.push("column")
         if(solver.checkRegionPlacement(puzzle, row, column, value)) conflict.push("region")
