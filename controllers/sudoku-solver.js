@@ -66,7 +66,7 @@ class SudokuSolver {
     return myRegion.includes(value)
   }
 
-  solvePuzzel(puzzleString){
+  solvePuzzle(puzzleString){
     let resolved = this.solve([puzzleString])
     if(resolved){
       return {"solution": resolved[0]}
